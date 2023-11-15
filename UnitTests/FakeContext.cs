@@ -9,14 +9,14 @@ namespace UnitTests
 {
     internal class FakeContext : IDataContext
     {
-        public List<string> Values { get; set; }
+        public List<Event> Events { get; set; }
 
         public FakeContext()
         {
-            Values = new List<string>
+            Events = new List<Event>
             {
-                "text a",
-                "text b"
+                new Event { Id = 1, Title = "Wedding"/*, Start = DateTime.Now*/ },
+                new Event { Id = 2, Title = "Appointment"/*, Start = DateTime.Now.AddDays(2)*/}
             };
         }
     }

@@ -12,13 +12,13 @@ namespace UnitTests
     //https://code-maze.com/unit-testing-aspnetcore-web-api/
     public class ValuesControllerTest
     {
-        private readonly ValuesController _controller;
+        private readonly EventsController _controller;
         private readonly IDataContext _dataContext;
 
         public ValuesControllerTest()
         {
             _dataContext = new FakeContext();
-            _controller = new ValuesController(_dataContext);
+            _controller = new EventsController(_dataContext);
         }
 
         [Fact]
@@ -28,49 +28,43 @@ namespace UnitTests
             var result = _controller.Get();
 
             //Assert
-            Assert.IsType<List<string>>(result);
+            Assert.IsType<List<Event>>(result);
         }
 
         [Fact]
         public void Get_ReturnsAllItems()
         {
             //Act
-            var result = _controller.Get() as List<string>;
+            var result = _controller.Get() as List<Event>;
 
             //Assert
-            var items = Assert.IsType<List<string>>(result);
+            var items = Assert.IsType<List<Event>>(result);
             Assert.Equal(2, items.Count);
         }
 
         [Fact]
         public void GetById_ReturnNotFoundResult()
         {
-            var result = _controller.Get("bbb") as ActionResult<string>;
+            var testId = 1;
+            var result = _controller.Get(testId) as ActionResult<Event>;
             Assert.IsType<NotFoundResult>(result.Result);
         }
-
-        //[Fact]
-        //public void GetById_ReturnNotFoundResult()
-        //{
-        //    var result = _controller.Get("bbb");
-        //    Assert.IsType<NotFoundResult>(result as NotFoundResult);
-        //}
 
         [Fact]
         public void GetById_ReturnsOkResult()
         {
-            var testValue = "text a";
-            var result = _controller.Get(testValue) as ActionResult<string>;
+            var testId = 1;
+            var result = _controller.Get(testId) as ActionResult<Event>;
             Assert.IsType<OkObjectResult>(result.Result);
         }
 
         [Fact]
         public void GetById_ReturnsRightItem()
         {
-            var testValue = "text a";
-            var result = _controller.Get(testValue) as ActionResult<string>;
-            Assert.IsType<string>(result.Value);
-            Assert.Equal(testValue, result.Value);
+            var testId = 1;
+            var result = _controller.Get(testId) as ActionResult<Event>;
+            Assert.IsType<Event>(result.Value);
+            Assert.Equal(testId, result.Value.Id);
         }
     }
 }

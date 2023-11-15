@@ -2,6 +2,6 @@
 {
     public interface IDataContext
     {
-        public List<string> Values { get; set; }
+        public List<Event> Events { get; set; }
     }
 }

@@ -6,38 +6,38 @@ namespace BasicAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class EventsController : ControllerBase
     {
         private readonly IDataContext _dataContext;
 
-        public ValuesController(IDataContext dataContext)
+        public EventsController(IDataContext dataContext)
         {
             _dataContext = dataContext;
         }
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Event> Get()
         {
-            return _dataContext.Values;
+            return _dataContext.Events;
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{val}")]
-        public ActionResult<string> Get(string val)
+        [HttpGet("{id}")]
+        public ActionResult<Event> Get(int id)
         {
-            var value = _dataContext.Values.Find(v => v == val);
-            if(string.IsNullOrEmpty(value))
+            var eve = _dataContext.Events.Find(e => e.Id == id);
+            if (eve is null)
             {
                 return NotFound();
             }
-            return Ok(value);
+            return Ok(eve);
         }
 
         // POST api/<ValuesController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            
+
         }
 
         // PUT api/<ValuesController>/5
